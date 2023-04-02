@@ -3,6 +3,7 @@
    [reagent.dom :as re-dom]
    [css100days.basic :as basic]
    [css100days.day1 :as day1]
+   [css100days.day2 :as day2]
    [reagent.core :as r]
    [reitit.frontend :as rf]
    [reitit.frontend.easy :as rfe]
@@ -72,7 +73,14 @@
      {:name ::basic
       :view basic/framework
       :style basic/styles}]
-    ]
+    ["day1"
+     {:name ::day1
+      :view day1/framework
+      :style day1/styles}]
+    ["day2"
+     {:name ::day2
+      :view day2/framework
+      :style day2/styles}]]
    {:data {:controllers [{:start (log-fn "start" "root-controller")
                           :stop (log-fn "stop" "root-controller")}]
            :coercion rsc/coercion}}))
