@@ -9,24 +9,77 @@
    [reitit.frontend.easy :as rfe]
    [reitit.coercion.schema :as rsc]))
 
-
-
-
 (defonce match (r/atom nil))
+
+(defn log-fn [& params]
+  (fn [_]
+    (apply js/console.log params)))
+
+(def raw-routes
+  ["/"
+   [""
+    {:name ::home
+     :view basic/framework
+     :style basic/styles}]
+   ["basic"
+    {:name ::basic
+     :view basic/framework
+     :style basic/styles}]
+   
+   ["day1"
+    {:name ::day1
+     :view day1/framework
+     :style day1/styles}]
+   ["day2"
+    {:name ::day2
+     :view day2/framework
+     :style day2/styles}]])
+
+(def routes
+  (rf/router
+   raw-routes
+   {:data {:controllers [{:start (log-fn "start" "root-controller")
+                          :stop (log-fn "stop" "root-controller")}]
+           :coercion rsc/coercion}}))
+
+(defn current-module-name
+  []
+  (-> @match
+      :data
+      :name
+      name))
+
+(defn select-component 
+  []
+  (->> raw-routes rest 
+       (map (comp 
+             (fn [name]
+               [:option {:value name
+                         :selected (when (= (current-module-name) name)
+                                     true)} 
+                name])
+             name
+             :name
+             second))
+       (apply conj 
+              [:select {:name "navigation-select"
+                        :on-change (fn [e]
+                                     (set! js/document.location
+                                           (str "/"
+                                                (-> e
+                                                    .-target
+                                                    .-value)))
+                                     
+                                     )}]))
+  )
+
+
+
 
 (defn navigation-bar
   []
   [:div
-   [:select {:name "navigation-select"}
-    [:option {:value "aaa"}]]
-   [:input {:type "button"
-            :on-click (fn [])
-            :value "Click to change."}]])
-
-(comment 
-  (re-dom/render
-   [navigation-bar]
-   (js/document.getElementById "app")))
+   (select-component)])
 
 (defn current-page
   []
@@ -35,10 +88,6 @@
    (when @match
      [:div
       [(:view (:data @match)) #_@match]])])
-(comment
-  
-
-  )
 
 (defn current-style
   []
@@ -52,9 +101,6 @@
    [current-style]
    (js/document.getElementById "style")))
 
-(comment
-  (render-style)
-  )
 
 (defn render-body
   [] 
@@ -62,28 +108,7 @@
    [current-page]
    (js/document.getElementById "app")))
 
-(defn log-fn [& params]
-  (fn [_]
-    (apply js/console.log params)))
 
-(def routes
-  (rf/router
-   ["/"
-    [""
-     {:name ::basic
-      :view basic/framework
-      :style basic/styles}]
-    ["day1"
-     {:name ::day1
-      :view day1/framework
-      :style day1/styles}]
-    ["day2"
-     {:name ::day2
-      :view day2/framework
-      :style day2/styles}]]
-   {:data {:controllers [{:start (log-fn "start" "root-controller")
-                          :stop (log-fn "stop" "root-controller")}]
-           :coercion rsc/coercion}}))
 
 (defn init-router
   []
