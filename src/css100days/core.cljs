@@ -1,46 +1,90 @@
 (ns css100days.core
-  (:require [garden.core :refer [css]]
-            [reagent.dom :as re-dom]
-            [css100days.day1 :as day1]))
-(defn styles 
-  []
-  (css [:.frame {:position "absolute"
-                :top "50%"
-                :left "50%"
-                :width "400px"
-                :height "400px"
-                :margin-top "-200px"
-                :margin-left "-200px"
-                :border-radious "2px"
-                :box-shadow "4px 8px 16px 0 rgba(0,0,0,0.1)"
-                :overflow "hidden"
-                :background "#fff"
-                :color "#333"
-                :font-family "'Open Sans', Helvetica, sans-serif"
-                :-webkit-font-smoothing "antialiased"
-                :-moz-osx-font-smoothing "grayscale"}]
-       [:.center {:position "absolute"
-                  :top "50%"
-                  :left "50%"
-                  :transform "translate(-50%,-50%)"}]))
+  (:require
+   [reagent.dom :as re-dom]
+   [css100days.basic :as basic]
+   [css100days.day1 :as day1]
+   [reagent.core :as r]
+   [reitit.frontend :as rf]
+   [reitit.frontend.easy :as rfe]
+   [reitit.coercion.schema :as rsc]))
 
-(defn framework
+
+
+
+(defonce match (r/atom nil))
+
+(defn navigation-bar
   []
-  (fn []
-    [:div {:class "frame"}
-     [:div {:class "center"}
-      [:p "Happy coding :)"]]]))
+  [:div
+   [:select {:name "navigation-select"}
+    [:option {:value "aaa"}]]
+   [:input {:type "button"
+            :on-click (fn [])
+            :value "Click to change."}]])
+
+(comment 
+  (re-dom/render
+   [navigation-bar]
+   (js/document.getElementById "app")))
+
+(defn current-page
+  []
+  [:div
+   (navigation-bar)
+   (when @match
+     [:div
+      [(:view (:data @match)) #_@match]])])
+(comment
+  
+
+  )
+
+(defn current-style
+  []
+  (when @match
+    (:style (:data @match))))
+
 
 (defn render-style
   []
   (re-dom/render
-   [day1/styles]
+   [current-style]
    (js/document.getElementById "style")))
+
+(comment
+  (render-style)
+  )
 
 (defn render-body
   [] 
-  (re-dom/render [day1/framework]
-                 js/document.body))
+  (re-dom/render 
+   [current-page]
+   (js/document.getElementById "app")))
+
+(defn log-fn [& params]
+  (fn [_]
+    (apply js/console.log params)))
+
+(def routes
+  (rf/router
+   ["/"
+    [""
+     {:name ::basic
+      :view basic/framework
+      :style basic/styles}]
+    ]
+   {:data {:controllers [{:start (log-fn "start" "root-controller")
+                          :stop (log-fn "stop" "root-controller")}]
+           :coercion rsc/coercion}}))
+
+(defn init-router
+  []
+  (rfe/start!
+   routes
+   (fn [m]
+     (js/console.debug "Initial route : " m)
+     (reset! match m))
+   {:use-fragment false}))
 
 (defn render
   []
@@ -49,7 +93,9 @@
 
 (defn ^:export init
   [& _params] 
+  (init-router)
   (render))
 
 (defn ^:dev/after-load start [] 
+  (init-router)
   (render))
