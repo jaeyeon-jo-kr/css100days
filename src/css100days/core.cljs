@@ -4,6 +4,7 @@
    [css100days.basic :as basic]
    [css100days.day1 :as day1]
    [css100days.day2 :as day2]
+   [css100days.day3 :as day3]
    [reagent.core :as r]
    [reitit.frontend :as rf]
    [reitit.frontend.easy :as rfe]
@@ -25,7 +26,6 @@
     {:name ::basic
      :view basic/framework
      :style basic/styles}]
-   
    ["day1"
     {:name ::day1
      :view day1/framework
@@ -33,7 +33,11 @@
    ["day2"
     {:name ::day2
      :view day2/framework
-     :style day2/styles}]])
+     :style day2/styles}]
+   ["day3"
+    {:name ::day3
+     :view day3/framework
+     :style day3/styles}]])
 
 (def routes
   (rf/router
@@ -115,7 +119,6 @@
   (rfe/start!
    routes
    (fn [m]
-     (js/console.debug "Initial route : " m)
      (reset! match m))
    {:use-fragment false}))
 
