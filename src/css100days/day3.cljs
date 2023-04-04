@@ -149,13 +149,13 @@
 
 (defn left-side-color
   []
-  (if (> @sun-degree -0.5)
+  (if (> @sun-degree -0.1)
     "#DDDADA"
     "#F4F4F4"))
 
 (defn right-side-color
   []
-  (if (> @sun-degree -0.5)
+  (if (> @sun-degree -0.1)
     "#F4F4F4"
     "#DDDADA"))
 
@@ -169,11 +169,13 @@
                  (assoc-in [left-side-index css-attribute-index :background] (left-side-color))
                  (assoc-in [right-side-index css-attribute-index :background] (right-side-color)))))))
 
+(def interval 100)
+
 (defn update-sun-degree
   []
   (if (< 0.5 @sun-degree)
     (reset! sun-degree -1.0)
-    (swap! sun-degree + 0.1)))
+    (swap! sun-degree + 0.03)))
 
 (defn update-animation
   [] 
@@ -182,10 +184,6 @@
   (update-sun-degree)
   (update-sun-position))
 
-(comment 
-  (update-animation)
-  
-  )
 
 (defn styles
   []
@@ -194,7 +192,7 @@
 
 
 (defonce time-updater
-  (js/setInterval update-animation 100))
+  (js/setInterval update-animation interval))
 
 
 (defn framework
