@@ -13,7 +13,7 @@
                      :height "400px"
                      :margin-top "-200px"
                      :margin-left "-200px"
-                     :border-radious "2px"
+                     :border-radius "2px"
                      :box-shadow "4px 8px 16px 0 rgba(0,0,0,0.1)"
                      :overflow "hidden"
                      :background "#272C34"

@@ -11,7 +11,7 @@
                  :height "400px"
                  :margin-top "-200px"
                  :margin-left "-200px"
-                 :border-radious "2px"
+                 :border-radius "2px"
                  :box-shadow "1px 2px 10px 0px rgba(0,0,0,0.3)"
                  :overflow "hidden"
                  :background "-webkit-linear-gradient(bottom left, #43389F 0%, #4ec6ca 100%);"
@@ -33,7 +33,7 @@
                     :height "40px"
                     :width "20px"
                     :background "#fff"
-                    :border-radious "3px"
+                    :border-radius "3px"
                     :transform "rotate(50deg)"
                     :box-shadow "0 0 13px 0 rgba(0,0,0,0.2)"}]
         [:.one-two {:position "absolute"
@@ -43,7 +43,7 @@
                     :height "100px"
                     :width "24px"
                     :background "#fff"
-                    :border-radious "3px"
+                    :border-radius "3px"
                     :box-shadow "0 0 13px 0 rgba(0,0,0,0.2)"}]
         [:.zero-one :.zero-two
          {:position "absolute"
