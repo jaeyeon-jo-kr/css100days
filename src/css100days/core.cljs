@@ -6,6 +6,7 @@
    [css100days.day2 :as day2]
    [css100days.day3 :as day3]
    [css100days.day4 :as day4]
+   [css100days.day5 :as day5]
    [reagent.core :as r]
    [reitit.frontend :as rf]
    [reitit.frontend.easy :as rfe]
@@ -42,7 +43,11 @@
    ["day4"
     {:name ::day4
      :view day4/framework
-     :style day4/styles}]])
+     :style day4/styles}]
+   ["day5"
+    {:name ::day5
+     :view day5/framework
+     :style day5/styles}]])
 
 (def routes
   (rf/router
@@ -58,29 +63,26 @@
       :name
       name))
 
-(defn select-component 
+(defn select-component
   []
-  (->> raw-routes rest 
-       (map (comp 
+  (->> raw-routes rest
+       (map (comp
              (fn [name]
                [:option {:value name
                          :selected (when (= (current-module-name) name)
-                                     true)} 
+                                     true)}
                 name])
              name
              :name
              second))
-       (apply conj 
+       (apply conj
               [:select {:name "navigation-select"
                         :on-change (fn [e]
                                      (set! js/document.location
                                            (str "/"
                                                 (-> e
                                                     .-target
-                                                    .-value)))
-                                     
-                                     )}]))
-  )
+                                                    .-value))))}])))
 
 
 
