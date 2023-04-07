@@ -91,6 +91,70 @@
                label]))
        (apply conj [:div {:id "x-axis"}])))
 
+(def data
+  {:views [20 40 50 60 50]
+   :purchase [10 20 40 50 50]})
+
+(def x-margin 15)
+
+(def y-margin 20)
+
+(def x-gap 40)
+
+(defn line 
+  [index type prev-val next-val]
+  [:line {:stroke-width "3px"
+          :stroke (case type
+                    :views "#E53935"
+                    :purchase "#6200EA")
+          :x1 (-> index
+                  (* x-gap)
+                  (+ x-margin)
+                  (str "pt"))
+          :y1 (-> prev-val
+                  (+ y-margin)
+                  (str "pt"))
+          :x2 (-> index
+                  inc
+                  (* x-gap)
+                  (+ x-margin)
+                  (str "pt"))
+          :y2 (-> next-val
+                  (+ y-margin)
+                  (str "pt"))}])
+
+(defn graph-lines
+  [category]
+  (->> (category data)
+       ((juxt butlast rest))
+       (apply map #(vector %1 %2))
+       (map-indexed (fn [i [prev next]]
+                      (line i category prev next)))))
+
+(defn svg-sample
+  []
+  (->> [[:line {:x1 "10pt"
+                :y1 "30pt"
+                :x2 "180pt"
+                :y2 "30pt"
+                :stroke "#B0BEC5"
+                :stroke-width "1px"}]
+        [:line {:x1 "10pt"
+                :y1 "60pt"
+                :x2 "180pt"
+                :y2 "60pt"
+                :stroke "#B0BEC5"
+                :stroke-width "1px"}]
+        [:line {:x1 "10pt"
+                :y1 "90pt"
+                :x2 "180pt"
+                :y2 "90pt"
+                :stroke "#B0BEC5"
+                :stroke-width "1px"}]]
+       (concat (graph-lines :views) (graph-lines :purchase))
+       (apply conj [:svg {:position "relative"
+                          :top "100px"
+                          :left "200px"}])))
 
 
 (defn styles
@@ -145,27 +209,6 @@
           :font-size "12pt"
           :color "#FFFFFF"
           :font-style "bold;"}]
-        [:.line-1
-         {:position "absolute"
-          :top "30pt"
-          :left "15pt"
-          :width "170pt"
-          :height "40pt"
-          :border-top "1px solid #B0BEC5;"}]
-        [:.line-2
-         {:position "absolute"
-          :top "60pt"
-          :left "15pt"
-          :width "170pt"
-          :height "40pt"
-          :border-top "1px solid #B0BEC5;"}]
-        [:.line-3
-         {:position "absolute"
-          :top "90pt"
-          :left "15pt"
-          :width "170pt"
-          :height "40pt"
-          :border-top "1px solid #B0BEC5;"}]
         views-legend-style
         views-legend-line-style
         views-legend-text-style
@@ -190,5 +233,7 @@
         [:div {:class "line-1"}]
         [:div {:class "line-2"}]
         [:div {:class "line-3"}]
-        x-axis]]]]))
+        x-axis
+        (svg-sample)
+        ]]]]))
 
