@@ -1,6 +1,6 @@
 (ns css100days.day1
   (:require [garden.core :refer [css]]
-            [reagent.dom :as re-dom]))
+            #_[reagent.dom :as re-dom]))
 
 (defn styles
   []

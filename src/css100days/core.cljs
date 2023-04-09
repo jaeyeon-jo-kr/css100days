@@ -7,6 +7,7 @@
    [css100days.day3 :as day3]
    [css100days.day4 :as day4]
    [css100days.day5 :as day5]
+   [css100days.day6 :as day6]
    [reagent.core :as r]
    [reitit.frontend :as rf]
    [reitit.frontend.easy :as rfe]
@@ -47,7 +48,11 @@
    ["day5"
     {:name ::day5
      :view day5/framework
-     :style day5/styles}]])
+     :style day5/styles}]
+   ["day6"
+    {:name ::day6
+     :view day6/framework
+     :style day6/styles}]])
 
 (def routes
   (rf/router

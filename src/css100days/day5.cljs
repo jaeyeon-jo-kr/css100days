@@ -1,6 +1,6 @@
 (ns css100days.day5
   (:require [garden.core :refer [css]]
-            [reagent.core :as r]))
+            #_[reagent.core :as r]))
 
 (comment 
   "Statistic: In a world of numbers, 
@@ -234,6 +234,5 @@
         [:div {:class "line-2"}]
         [:div {:class "line-3"}]
         x-axis
-        (svg-sample)
-        ]]]]))
+        (svg-sample)]]]]))
 
