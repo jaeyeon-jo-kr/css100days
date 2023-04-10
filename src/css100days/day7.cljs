@@ -7,32 +7,57 @@
 ;;The three cornerstones of any application?
 ;;Brought together in the smallest possible space.
 
-
+(def search-active (r/atom false))
 
 (def bar-menu-button-style
   [:.menu-btn
    {:position "absolute"
-    :top "40%"
+    :top "23%"
     :left "5%"
-    :color "white"}
-   ["&:hover" {:cursor "pointer"}]])
+    :width "15%"
+    :filter "invert(46%)
+             sepia(28%) 
+             saturate(2425%)
+             hue-rotate(158deg)
+             brightness(98%)
+             contrast(101%)"}
+   ["&:hover" {:cursor "pointer"
+               :filter "invert(95%) sepia(68%) saturate(1205%) hue-rotate(163deg) brightness(99%) contrast(103%)"}]])
 
 (def bar-text-style
   [:.text
    {:position "absolute"
     :top "40%"
-    :left "40%"
+    :left "35%"
+    :font-size "20px"
     :color "white"}])
 
 
 (def bar-search-button-style
-  [:.search
+  [:.show-search-btn
    {:position "absolute"
-    :top "40%"
-    :left "85%"
-    :color "white"}
-   ["&:hover" {:cursor "pointer"}]])
+    :top "25%"
+    :left "80%"
+    :width "15%"
+    :filter "invert(46%)
+             sepia(28%) 
+             saturate(2425%)
+             hue-rotate(158deg)
+             brightness(98%)
+             contrast(101%)"}
+   ["&:hover" {:cursor "pointer"
+               :filter "invert(95%) sepia(68%) saturate(1205%) hue-rotate(163deg) brightness(99%) contrast(103%)"}]])
 
+(def bar-search-style
+  [:.search 
+   {:position "absolute"
+    :top "30%"
+    :left "5%"
+    :z-index 10
+    :visibility "hidden"
+    :height "50%"
+    :width "70%"}
+   [:&.active {:visibility "visible"}]])
 
 
 (def bar-style
@@ -43,22 +68,44 @@
            :height "80px"
            :width "320px"}
    bar-menu-button-style
+   bar-search-style
    bar-search-button-style
    bar-text-style])
 
-(def clock-style
-  [:.clock {}])
+(def time-style
+  [:.time {:display "block"}])
 
 (def content-style
-  [:.content {:position "relative"
-              }])
+  [:.content {:position "relative"}])
 
+(def horizontal-bar-style
+  [:.horizontal-bar
+   {:position "absolute"
+    :top "0px"
+    :left "16px"
+    :background "pink"
+    :width "18px"
+    :height "250px"}])
+
+(def circle-style
+  [:.circle
+   {"box-sizing" "border-box"
+    "position" "absolute"
+    "height" "11px"
+    "width" "11px"
+    "background" "#eddcc8"
+    "border" "2px solid pink"
+    "box-shadow" "0 0 0 3px"
+    "border-radius" "6px"
+    "top" "0"
+    "left" "-20px"}])
+			 
 
 (def item-style
   [:.item {:position "relative"}
    ["&:hover" {:cursor "pointer"
                :color "#65a7dd"}]
-   clock-style
+   time-style
    content-style])
 
 
@@ -75,16 +122,18 @@
            :left "0px"
            :height "250px"
            :width "320px"}
+   horizontal-bar-style
    list-style])
 
-(def main-style
+(def notification-style
   [:.main {:transition "all 1s"}
    [:&.show-menu {:position "relative"
                   :transform "translateX(100px)"}]
    bar-style
-   body-style])
+   body-style
+   circle-style])
 
-(def main-class (r/atom "main show-menu"))
+(def main-class (r/atom "main"))
 
 (def menu-item-text-style
   [:.menu-item-text
@@ -110,7 +159,6 @@
     :bottom "0px"
     :width "200px"
     :height "250px"
-    
     :background "#bf8"}
    menu-item-style])
 
@@ -137,7 +185,7 @@
                     :top "50%"
                     :left "50%"
                     :transform "translate(-50%,-50%)"}
-          main-style
+          notification-style
           menu-panel-style])))
 
 (defn framework
@@ -163,27 +211,41 @@
          "Settings"]]]
       [:div {:class @main-class :id "main"}
        [:div {:class "bar"}
-        [:div {:class "menu-btn"
+        [:input {:type "text" 
+                 :class (if @search-active
+                          "search active"
+                          "search")}]
+        [:img {:class "menu-btn"
+               :src "asset/menu.svg"
+               :alt "menu"
                :on-click (fn [_]
                            (swap! main-class {"main" "main show-menu"
                                               "main show-menu" "main"}))} 
-         "menu"]
+         ]
         [:span {:class "text"} "Notifications"]
-        [:div {:class "search"} "search"]]
+        [:img {:class "show-search-btn"
+               :src "asset/magnify.svg"
+               :alt "Search"
+               :on-click (fn [_]
+                           (swap! search-active not))}]]
        [:div {:class "body"}
+        [:div {:class "horizontal-bar"}]
         [:ul {:class "list"}
          [:li {:class "item"}
-          [:p {:class "clock"}
+          [:div {:class "circle"}]
+          [:p {:class "time"}
            "9:24 AM"]
           [:p {:class "content"}
            "John Walker posted a photo on your wall."]]
          [:li {:class "item"}
-          [:p {:class "clock"}
+          [:div {:class "circle"}]
+          [:p {:class "time"}
            "8:19 AM"]
           [:p {:class "content"}
            "Alice Parker commented your last post."]]
          [:li {:class "item"}
-          [:p {:class "clock"}
+          [:div {:class "circle"}]
+          [:p {:class "time"}
            "Yesterday"]
           [:p {:class "content"}
            "Luke Wayne added you as friend."]]]]]]]))
