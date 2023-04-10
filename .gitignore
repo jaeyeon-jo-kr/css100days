@@ -2,6 +2,7 @@
 .clj-kondo
 .cpcache
 .lsp
+.DS_Store
 .shadow-cljs
 node_modules
 resources/public/js
