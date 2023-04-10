@@ -7,8 +7,10 @@
 ;;The three cornerstones of any application?
 ;;Brought together in the smallest possible space.
 
+
+
 (def bar-menu-button-style
-  [:.menu 
+  [:.menu-btn
    {:position "absolute"
     :top "40%"
     :left "5%"
@@ -75,6 +77,42 @@
            :width "320px"}
    list-style])
 
+(def main-style
+  [:.main {:transition "all 1s"}
+   [:&.show-menu {:position "relative"
+                  :transform "translateX(100px)"}]
+   bar-style
+   body-style])
+
+(def main-class (r/atom "main show-menu"))
+
+(def menu-item-text-style
+  [:.menu-item-text
+   {:position "absolute"
+    :color "#2ee8bb"
+    :left "6px"}])
+
+(def menu-item-style
+  [:.menu-item
+   {:position "relative"
+    :top "10px"
+    :height "40px"
+    :margin-top "5px"}
+   ["&:hover" {:cursor "pointer"
+               :background "#2ee8bb"}
+    [:.menu-item-text {:color "#bf8"}]]
+   menu-item-text-style])
+
+(def menu-panel-style
+  [:.menu-panel
+   {:position "absolute"
+    :top "10px"
+    :bottom "0px"
+    :width "200px"
+    :height "250px"
+    
+    :background "#bf8"}
+   menu-item-style])
 
 
 (defn styles
@@ -99,33 +137,54 @@
                     :top "50%"
                     :left "50%"
                     :transform "translate(-50%,-50%)"}
-          bar-style
-          body-style])))
+          main-style
+          menu-panel-style])))
 
 (defn framework
   []
   (fn []
     [:div {:class "frame"}
      [:div {:class "center"}
-      [:div {:class "bar"}
-       [:div {:class "menu"} "menu"]
-       [:span {:class "text"} "Notifications"]
-       [:div {:class "search"} "search"]]
-      [:div {:class "body"}
-       [:ul {:class "list"}
-        [:li {:class "item"}
-         [:p {:class "clock"}
-          "9:24 AM"]
-         [:p {:class "content"}
-          "John Walker posted a photo on your wall."]]
-        [:li {:class "item"}
-         [:p {:class "clock"}
-          "8:19 AM"]
-         [:p {:class "content"} 
-          "Alice Parker commented your last post."]]
-        [:li {:class "item"}
-         [:p {:class "clock"} 
-          "Yesterday"]
-         [:p {:class "content"}
-          "Luke Wayne added you as friend."]]]]]]))
+      [:div {:class "menu-panel"}
+       [:div {:class "menu-item"}
+        [:div {:class "menu-item-text"}
+         "Dashboard"]]
+       [:div {:class "menu-item"}
+        [:div {:class "menu-item-text"}
+         "Profile"]]
+       [:div {:class "menu-item"}
+        [:div {:class "menu-item-text"}
+         "Notifications"]]
+       [:div {:class "menu-item"}
+        [:div {:class "menu-item-text"}
+         "Messages"]]
+       [:div {:class "menu-item"}
+        [:div {:class "menu-item-text"}
+         "Settings"]]]
+      [:div {:class @main-class :id "main"}
+       [:div {:class "bar"}
+        [:div {:class "menu-btn"
+               :on-click (fn [_]
+                           (swap! main-class {"main" "main show-menu"
+                                              "main show-menu" "main"}))} 
+         "menu"]
+        [:span {:class "text"} "Notifications"]
+        [:div {:class "search"} "search"]]
+       [:div {:class "body"}
+        [:ul {:class "list"}
+         [:li {:class "item"}
+          [:p {:class "clock"}
+           "9:24 AM"]
+          [:p {:class "content"}
+           "John Walker posted a photo on your wall."]]
+         [:li {:class "item"}
+          [:p {:class "clock"}
+           "8:19 AM"]
+          [:p {:class "content"}
+           "Alice Parker commented your last post."]]
+         [:li {:class "item"}
+          [:p {:class "clock"}
+           "Yesterday"]
+          [:p {:class "content"}
+           "Luke Wayne added you as friend."]]]]]]]))
 
