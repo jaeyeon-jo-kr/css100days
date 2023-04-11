@@ -9,6 +9,7 @@
    [css100days.day5 :as day5]
    [css100days.day6 :as day6]
    [css100days.day7 :as day7]
+   [css100days.day8 :as day8]
    [reagent.core :as r]
    [reitit.frontend :as rf]
    [reitit.frontend.easy :as rfe]
@@ -57,7 +58,11 @@
    ["day7"
     {:name ::day7
      :view day7/framework
-     :style day7/styles}]])
+     :style day7/styles}]
+   ["day8"
+    {:name ::day8
+     :view day8/framework
+     :style day8/styles}]])
 
 (def routes
   (rf/router
@@ -108,7 +113,7 @@
    (navigation-bar)
    (when @match
      [:div
-      [(:view (:data @match)) #_@match]])])
+      [(:view (:data @match))]])])
 
 (defn current-style
   []
