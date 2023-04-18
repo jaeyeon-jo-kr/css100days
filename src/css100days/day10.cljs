@@ -10,21 +10,41 @@
 (def circle-in-spinner-style
   [:circle
   {:stroke "#F85B5B"
-   :stroke-width "9"
+   :stroke-width "11"
    :fill "none"
    :stroke-dasharray "625"
-   :transform-origin "center center";
+   :transform-origin "center center"
+   :animation "spin 5s linear infinite"
    :transform "rotate(-90deg)"} ])
+
+(def spin-keyframe
+  (str "\n@keyframes spin { 
+  from {
+		stroke-dashoffset: 625;
+		transform: rotate(-90deg) scaleY(1);
+	}
+	50% {
+		stroke-dashoffset: 0;
+		transform: rotate(-90deg) scaleY(1);
+	}
+	50.001% {
+		transform: rotate(-90deg) scaleY(-1);
+	}
+	to {
+		stroke-dashoffset: 625;
+		transform: rotate(-90deg) scaleY(-1);
+	}
+}"))
 
 (def spinner-style
   [:.spinner 
    {:position "absolute"
     :width "270px"
     :height "270px"
-    :border-radius "50%"
     :top "-15px"
     :left "-15px"}
    circle-in-spinner-style])
+
 
 (def moving-circle-style
   [:.moving-circle
@@ -40,12 +60,6 @@
     :width "168pt"
     :height "168pt"}])
 
-(def spin-keyframe
-  (str "\n@keyframes spin { 
-  0% {
-    transform: rotate(-90deg)
-  }
-}"))
 
 (def dot-circle-style
   [:.dot-circle
@@ -120,6 +134,7 @@
         [:div {:class "dot-circle"}]
         [:svg {:class "spinner"
                :xlmns "https://www.w3.org/2000/svg"}
-         [:circle {:cx "135" :cy "135" 
+         [:circle {:cx "135" :cy "135"
+                   :pathLength "100"
                    :r "115"}]]]]]]))
 
