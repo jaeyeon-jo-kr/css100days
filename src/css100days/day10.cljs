@@ -12,7 +12,6 @@
   {:stroke "#F85B5B"
    :stroke-width "9"
    :fill "none"
-   
    :stroke-dasharray "625"
    :transform-origin "center center";
    :transform "rotate(-90deg)"} ])
@@ -20,11 +19,11 @@
 (def spinner-style
   [:.spinner 
    {:position "absolute"
-    :width "350px"
-    :height "350px"
+    :width "270px"
+    :height "270px"
     :border-radius "50%"
-    :top "-50px"
-    :left "0px"}
+    :top "-15px"
+    :left "-15px"}
    circle-in-spinner-style])
 
 (def moving-circle-style
@@ -120,8 +119,7 @@
        [:div {:class "inner-circle"}
         [:div {:class "dot-circle"}]
         [:svg {:class "spinner"
-               :viewbox "0 0 200 200"
                :xlmns "https://www.w3.org/2000/svg"}
-         [:circle {:cx "180" :cy "120" 
-                   :r "98"}]]]]]]))
+         [:circle {:cx "135" :cy "135" 
+                   :r "115"}]]]]]]))
 
