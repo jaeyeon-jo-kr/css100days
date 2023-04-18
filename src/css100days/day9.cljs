@@ -57,14 +57,17 @@
     {:position "absolute"
      :display "block"
      :background "#028192"
+     :content ""
      :top "10px"
-     :left "40px"}]
+     :left "40px"
+     :width "30px"
+     :height "10px"}]
    [:&:after 
     {:position "absolute"
-     :display "block"
      :background "blue"
-     :top "10px"
-     :left "30px"}]])
+     :border-radius "50%"
+     :width "40px"
+     :height "50px"}]])
 
 (def hill-style
   [:.hill-bg 
