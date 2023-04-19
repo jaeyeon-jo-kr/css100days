@@ -14,7 +14,7 @@
    :fill "none"
    :stroke-dasharray "625"
    :transform-origin "center center"
-   :animation "spin 5s linear infinite"
+   :animation "spin 4s linear infinite"
    :transform "rotate(-90deg)"} ])
 
 (def spin-keyframe
@@ -45,21 +45,27 @@
     :left "-15px"}
    circle-in-spinner-style])
 
-
-(def moving-circle-style
-  [:.moving-circle
+(def current-date-style
+  [:.current-date
    {:position "absolute"
-    :top "0.5%"
-    :left "0.5%"
-    :border "6px solid red"
-    :border-radius "50%"
-    :stroke-dasharray "625"
-    :stroke-dashoffset "0"
-    :animation "spin 4s linear infinite"
-    :transform-origin "center center"
-    :width "168pt"
-    :height "168pt"}])
+    :top "60px"
+    :left "52px"
+    :width "270px"
+    :height "270px"}])
 
+(def current-time-style
+  [:.current-time
+   {:position "absolute"
+    :top "24px"
+    :left "42px"
+    :font-size "60px"}])
+
+(def beat-style
+  [:.beat
+   {:position "absolute"
+    :top "130px"
+    :left "60px"
+    :font-size "20px"}])
 
 (def dot-circle-style
   [:.dot-circle
@@ -72,6 +78,14 @@
     :width "160pt"
     :height "160pt"}])
 
+(def energy-style
+  [:.energy
+   {:position "absolute"
+    :top "105pt"
+    :left "80pt"
+    :font-size "11.3pt"}])
+
+
 (def inner-circle-style
   [:.inner-circle
    {:position "absolute"
@@ -82,7 +96,11 @@
     :border-radius "50%"
     :background "#f3ffbd"}
    dot-circle-style
-   ])
+   current-date-style
+   current-time-style
+   beat-style
+   energy-style])
+
 
 
 (def outer-circle-style
@@ -132,6 +150,14 @@
       [:div {:class "outer-circle"}
        [:div {:class "inner-circle"}
         [:div {:class "dot-circle"}]
+        [:p {:class "current-date"} 
+         "MON 15 JAN 2015"]
+        [:p {:class "current-time"}
+         "11:42"]
+        [:p {:class "beat"}
+         "❤️81"]
+        [:p {:class "energy"}
+         "1248 KCAL"]
         [:svg {:class "spinner"
                :xlmns "https://www.w3.org/2000/svg"}
          [:circle {:cx "135" :cy "135"
