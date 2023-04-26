@@ -1,7 +1,7 @@
 (ns css100days.core
   (:require
    [reagent.dom :as re-dom]
-   [css100days.basic :as basic]
+   [css100days.day11 :as basic]
    [css100days.day1 :as day1]
    [css100days.day2 :as day2]
    [css100days.day3 :as day3]
@@ -12,6 +12,7 @@
    [css100days.day8 :as day8]
    [css100days.day9 :as day9]
    [css100days.day10 :as day10]
+   [css100days.day11 :as day11]
    [reagent.core :as r]
    [reitit.frontend :as rf]
    [reitit.frontend.easy :as rfe]
@@ -72,7 +73,11 @@
    ["day10"
     {:name ::day10
      :view day10/framework
-     :style day10/styles}]])
+     :style day10/styles}]
+   ["day11"
+    {:name ::day11
+     :view day11/framework
+     :style day11/styles}]])
 
 (def routes
   (rf/router
