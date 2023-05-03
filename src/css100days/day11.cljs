@@ -11,9 +11,11 @@
            :background "lightblue"}])
 (def leg 
   [:.leg {:position "absolute"
-          :top "0px"
-          :left "-100px"
-          :transform-origin "10% 0%"}
+          :top "-140px"
+          :left "-50px"
+          :width "151px"
+          :height "245px"
+          :transform-origin "50% 0%"}
    ball])
 
 (def left
@@ -26,7 +28,7 @@
   [:.right
    {:animation "leg-swing 2s ease-in-out 1s infinite"}
    [:.shoe
-    {:animation "shoe-turn 2s ease-in-out infinite"}]])
+    {:animation "shoe-turn 2s ease-in-out 1s infinite"}]])
 
 (def shoe
   [:.shoe {:position "absolute"
@@ -34,10 +36,11 @@
            :bottom 0
            :width "151px"
            :height "130px"
-           :background "url('https://100dayscss.com/codepen/doc-martens.svg') center center no-repeat"}])
+           :background "url('https://100dayscss.com/codepen/doc-martens.svg') center center no-repeat"
+           :transform-origin "0 95%"}])
 
-(def ground
-  [:.ground {:position "absolute"
+(def floor
+  [:.floor {:position "absolute"
              :background "black"
              :width "100%"
              :height "120px"
@@ -48,8 +51,7 @@
   [:.center {:position "absolute"
              :top "50%"
              :left "50%"
-             :background-color "black"
-             :transform "translate(-50%,-50%)"}])
+             :background-color "black"}])
 
 (def frame 
   [:.frame {:position "absolute"
@@ -67,10 +69,8 @@
             :font-family "'Open Sans', Helvetica, sans-serif"
             :-webkit-font-smoothing "antialiased"
             :-moz-osx-font-smoothing "grayscale"}
-   ground
-   center
-   left
-   right])
+   floor
+   center])
 
 
 (def leg-swing
@@ -86,7 +86,7 @@
 (def shoe-turn
   (str "@keyframes shoe-turn {
     0%, 100% {
-		  transform: rotate(-10deg) translateY(-5px) translateX(10px);
+		  transform: rotate(-20deg) translateY(-5px) translateX(10px);
 	  }
 	  25% {
 		  transform: rotate(0deg) translateY(0px) translateX(0);
@@ -106,7 +106,7 @@
 
 (defn styles
   []
-  (-> (css frame shoe leg)
+  (-> (css frame shoe leg left right)
       (str animations)))
 
 (defn framework
@@ -118,5 +118,5 @@
        [:p {:class "shoe"}]]
       [:div {:class "leg right"}
        [:p {:class "shoe"}]]]
-     [:div {:class "ground"}]]))
+     [:div {:class "floor"}]]))
 
