@@ -43,10 +43,6 @@
              :z-index 1
              :color "white"}])
 
-(def obsession
-  [:.obsession
-   {:background "#286F8A"}])
-
 (def writer
   [:.writer {:position "absolute"
              :top "100px"
@@ -56,34 +52,33 @@
              :width "100px"
              :font-style "italic"}])
 
-(def content
-  [:.content 
-   {:position "absolute"
-    :background "#286F8A"
-    :color "white"}])
-
-(def emphasize
-  [:.emphasize
-   {:font-weight "bold"}])
 
 (def tooltip
   [:.tooltip 
-   {:position "absolute"
-    :width "250px"
-    :height "100px"
-    :border-radius "1px"
-    :border-color "black"}
-   content])
+   {:background "#286F8A"
+    :cursor "pointer"
+    :font-weight "bold"}
+   ["&:hover" :.info {:visibility "visible"}]
+   [:.info
+    {:position "absolute"
+     :width "250px"
+     :height "100px"
+     :border-radius "1px"
+     :border-color "black"
+     :visibility "hidden"} 
+    ["&:hover" :.info {:visibility "visible"}]
+    [:.title
+     {:background "white"
+      }
+     [:.word-pron]
+     [:.sound-button]]]])
+
 
 (defn styles
   []
   (fn []
-    (->> [frame center quote phrase obsession writer tooltip emphasize]
+    (->> [frame center quote phrase writer tooltip]
          (apply css))))
-
-(def obsession-comp
-  [:span {:class "obsession"
-          :on-mouse-over (fn [] (js/console.log "hover"))} "obsession"])
 
 (def word-sound-button-comp
   [:div {:class "sound-button"}])
@@ -104,24 +99,27 @@
    [:span {:class "emphasize"} "Obsession"]
    ", a persistent disturbing preoccupation with an often unreasonable idea or feeling."])
 
+
 (def tooltip-comp
-  [:div {:class "tooltip"}
-   title-comp
-   content-comp])
+  [:span {:class "tooltip"
+          :on-mouse-over (fn [] (js/console.log "hover"))}
+   [:div {:class "info"}
+    title-comp
+    content-comp]
+   "obsession"])
+
 
 (defn framework
   []
   (fn []
-    [:div 
+    [:div
      [:div {:class "frame"}
       [:div {:class "center"}
        [:div {:class "quote"} "„"]
        [:p {:class "phrase"}
         "I know quite certainly that I myself have no special talent; curiosity, "
-        obsession-comp
+        tooltip-comp
         " and dogged endurance, combined with self-criticism have brought me to my ideas."]
        [:div {:class "writer"}
-        "Albert Einstein"]]]
-     tooltip-comp]
-    ))
+        "Albert Einstein"]]]]))
 
