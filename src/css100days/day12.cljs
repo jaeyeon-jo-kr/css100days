@@ -58,20 +58,34 @@
    {:background "#286F8A"
     :cursor "pointer"
     :font-weight "bold"}
-   ["&:hover" :.info {:visibility "visible"}]
+   ["&:hover"  "&:focus"
+    [:.info {:visibility "visible"}]] 
    [:.info
-    {:position "absolute"
-     :width "250px"
-     :height "100px"
+    {:box-sizing "border-box"
+     :position "absolute"
+     :bottom "130px"
+     :left "0px"
+     :width "300px"
+     :height "110px"
+     :line-height "24px"
      :border-radius "1px"
      :border-color "black"
+     :background "black"
      :visibility "hidden"} 
-    ["&:hover" :.info {:visibility "visible"}]
+    ["&:before"]
+    ["&:after"]
     [:.title
      {:background "white"
-      }
-     [:.word-pron]
-     [:.sound-button]]]])
+      :color "blue"}
+     [:.word-pron
+      {:display "block"
+       :color "blue"}]
+     [:.sound-button]]
+    [:.content
+     {:display "inline-block"
+      :font-weight "initial"
+      :font-size "18px"
+      :padding "5px 6px"}]]])
 
 
 (defn styles
@@ -102,7 +116,7 @@
 
 (def tooltip-comp
   [:span {:class "tooltip"
-          :on-mouse-over (fn [] (js/console.log "hover"))}
+          }
    [:div {:class "info"}
     title-comp
     content-comp]
