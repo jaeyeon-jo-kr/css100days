@@ -15,6 +15,7 @@
    [css100days.day11 :as day11]
    [css100days.day12 :as day12]
    [css100days.day13 :as day13]
+   [css100days.day14 :as day14]
    [reagent.core :as r]
    [reitit.frontend :as rf]
    [reitit.frontend.easy :as rfe]
@@ -87,7 +88,11 @@
    ["day13"
     {:name ::day13
      :view day13/framework
-     :style day13/styles}]])
+     :style day13/styles}]
+   ["day14"
+    {:name ::day14
+     :view day14/framework
+     :style day14/styles}]])
 
 (def routes
   (rf/router
