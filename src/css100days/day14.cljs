@@ -4,12 +4,16 @@
             [reagent.core :as r]
             [shadow.json :as json]))
 
-(defprotocol Component
-  (style [this])
-  (element [this]))
 (declare Card)
 (declare BiCycle)
 (declare Street)
+(declare Front)
+(declare Flip)
+(declare Back)
+
+(defprotocol Component
+  (style [this])
+  (element [this]))
 
 (defrecord Framework []
  Component
@@ -33,21 +37,59 @@
   (style [_this]
     [:.card
      {:position "absolute"
-      :top "30%"
+      :top "20%"
       :left "10%"
       :width "80%"
-      :height "40%"
+      :height "50%"
       :background "yellow"}])
   (element [_this]
     [:div {:class "card"}
-     (element (BiCycle.))
-     (element (Street.))]))
+     (element (Flip.))]))
+
+(defrecord CardHoverFlip []
+  Component
+  (style [_]
+    [:.card:hover
+     [:.flip 
+      {:transform "rotateX(180deg) translate3d(0,0,0)"}]])
+  (element [_]))
+
+(defrecord Flip []
+  Component
+  (style [_]
+    [:.flip 
+     {:width "100%"
+      :height "100%"
+      :transform-style "preserve-3d"
+      :perspective "1000px"
+      :transition "all 1s ease-in-out"}])
+  (element [_]
+    [:div {:class "Flip"}
+     (element (Front.))
+     (element (Back.))]))
 
 (defrecord CardHover []
  Component
   (style [_this]
     [:.card:hover
-     {:transform "rotateX(180deg) translate3D(0,0,0)"}])
+     {:transform "rotateX(180deg) translate3D(0,0,0)"
+      :transition ""}])
+  (element [_this]))
+
+(defrecord CardHoverFront []
+  Component
+  (style [_this]
+    [:.card:hover
+     [:.front 
+      {:visibility "hidden"}]])
+  (element [_this]))
+
+(defrecord CardHoverBack []
+  Component
+  (style [_this]
+    [:.card:hover
+     [:.back
+      {:visibility "visible"}]])
   (element [_this]))
 
 (defrecord BiCycle []
@@ -56,7 +98,7 @@
     [:.bicycle 
      {:position "absolute"
       :top "20%"
-      :left "30%"
+      :left "25%"
       :animation "bike .6s ease-in-out infinite"}])
   (element [_this]
     [:img {:class "bicycle"
@@ -74,7 +116,7 @@
     [:.street
      {:position "absolute"
       :bottom "20%"
-      :right "20%"
+      :right "30%"
       :height "0.3rem"
       :width "4rem"
       :animation "street 1s linear 1s infinite"
@@ -85,8 +127,27 @@
 (def street-keyframes
   (str "\n@keyframes street {"
        "\n\t0% {transform: translate3d(0, 0, 0)}"
-       "\n\t100% {transform: translate3d(-300%, 0,0)}"
+       "\n\t100% {transform: translate3d(-100%, 0,0)}"
        "\n}"))
+
+(defrecord Front [fields]
+  Component
+  (style [_]
+    [:.front])
+  (element [_]
+    [:div {:class "front"}
+     (element (BiCycle.))
+     (element (Street.))]))
+
+(defrecord Back []
+  Component
+  (style [_]
+    [:.back
+     {:visibility "hidden"}])
+  (element [_]
+    [:div {:class "back"}
+     "Back"]))
+
 
 (defn styles
   []
@@ -94,8 +155,12 @@
        [:*
         {:box-sizing "border-box"}]
        (style (Framework.))
+       (style (Back.))
        (style (Card.))
        (style (CardHover.))
+       (style (CardHoverFront.))
+       (style (CardHoverBack.))
+       (style (CardHoverFlip.))
        (style (BiCycle.))
        (style (Street.)))
       (str bicycle-keyframes street-keyframes)))
@@ -103,3 +168,11 @@
 (defn framework
   []
   (element (Framework.)))
+
+(comment
+  
+  (clojure.core/satisfies? Component Framework)
+  (type framework)
+
+  )
+
