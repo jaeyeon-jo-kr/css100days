@@ -170,7 +170,10 @@
   (element (Framework.)))
 
 (comment
-  
+  (type Framework)
+  (satisfies? Framework Component)
+  (implements? type 111)
+  (meta #'Framework)
   (clojure.core/satisfies? Component Framework)
   (type framework)
 

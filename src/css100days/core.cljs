@@ -16,6 +16,7 @@
    [css100days.day12 :as day12]
    [css100days.day13 :as day13]
    [css100days.day14 :as day14]
+   [css100days.flex-box :as flex-box]
    [reagent.core :as r]
    [reitit.frontend :as rf]
    [reitit.frontend.easy :as rfe]
@@ -92,7 +93,11 @@
    ["day14"
     {:name ::day14
      :view day14/framework
-     :style day14/styles}]])
+     :style day14/styles}]
+   ["flex-box"
+    {:name ::flex-box
+     :view flex-box/framework
+     :style flex-box/styles}]])
 
 (def routes
   (rf/router
