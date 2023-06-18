@@ -16,6 +16,7 @@
    [css100days.day12 :as day12]
    [css100days.day13 :as day13]
    [css100days.day14 :as day14]
+   [css100days.day15 :as day15]
    [css100days.flex-box :as flex-box]
    [reagent.core :as r]
    [reitit.frontend :as rf]
@@ -94,6 +95,10 @@
     {:name ::day14
      :view day14/framework
      :style day14/styles}]
+   ["day15"
+    {:name ::day15
+     :view day15/framework
+     :style day15/styles}]
    ["flex-box"
     {:name ::flex-box
      :view flex-box/framework
