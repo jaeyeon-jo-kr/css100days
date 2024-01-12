@@ -1,6 +1,5 @@
 (ns css100days.day6
-  (:require [garden.core :refer [css]]
-            [reagent.core :as r]))
+  (:require [garden.core :refer [css]]))
 
 (def name-style
   [:.name {:position "relative"
@@ -10,7 +9,7 @@
            :font-weight "600"
            :margin-top "20px"}])
 
-(def job-style 
+(def job-style
   [:.job {:position "relative"
           :left "0px"
           :font-size "15px"
@@ -61,8 +60,7 @@
                     :transition "all 1.5s ease-in-out"}]
    ["&:hover" {:cursor "pointer"}
     [:.outer-circle {:transform "rotate(-360deg)"}]
-    [:.inner-circle {:transform "rotate(360deg)"}]
-    ]])
+    [:.inner-circle {:transform "rotate(360deg)"}]]])
 
 (def profile-style
   [:.profile {:float "left"
@@ -78,11 +76,11 @@
 
 (def stats-box-style
   [:.box {:box-sizing "border-box"
-         :width "120px"
-         :height "99px"
+          :width "120px"
+          :height "99px"
           :background "#e6f2ea"
-         :text-align "center"
-         :padding-top "28px"}
+          :text-align "center"
+          :padding-top "28px"}
    ["&:hover"
     {:background "#ff6b6b"}]
    ["&:nthchild(2)"
@@ -122,36 +120,8 @@
                    :width "320px"
                    :overflow "hidden"
                    :border-radius "3px"
-                   :transform "translate(-50%,-50%)" 
+                   :transform "translate(-50%,-50%)"
                    :box-shadow "10px 10px 15px 0 rgba(0,0,0,0.3)"}]
         profile-style
         stats-style]
        (apply css)))
-
-(defn framework
-  []
-  (fn []
-    [:div {:class "frame"}
-     [:div {:class "center"}
-      [:div {:class "profile"}
-       [:div {:class "image"}
-        
-        [:div {:class "inner-circle"}]
-        [:div {:class "outer-circle"}]]
-       [:p {:class "name"} "Sarah"]
-       [:p {:class "job"} "Producer"]
-       [:div {:class "actions"}
-        [:button {:class "btn"} "follow"]
-        [:button {:class "btn"} "message"]]]
-      [:div {:class "stats"}
-       [:div {:class "box"}
-        [:span {:class "value"} "10"]
-        [:span {:class "parameter"} "follwers"]]
-       [:div {:class "box"}
-        [:span {:class "value"} "20"]
-        [:span {:class "parameter"} "posts"]]
-       [:div {:class "box"}
-        [:span {:class "value"} "20"]
-        [:span {:class "parameter"} "followings"]]]
-      #_[:p "Happy coding :)"]]]))
-

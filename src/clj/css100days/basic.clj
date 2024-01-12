@@ -22,11 +22,3 @@
                   :top "50%"
                   :left "50%"
                   :transform "translate(-50%,-50%)"}]))
-
-(defn framework
-  []
-  (fn []
-    [:div {:class "frame"}
-     [:div {:class "center"}
-      [:p "Happy coding :)"]]]))
-

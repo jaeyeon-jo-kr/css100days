@@ -68,16 +68,3 @@
        flex-1-30px
        flex-1-1-100px
        example-1))
-
-(comment 
-  (styles)
-  (comp
-   #(-> % second meta :arglists first count (= 0)))
-  (-> (meta #'styles)
-      :arglists
-      first
-      count)
-
-  
-  
-  )

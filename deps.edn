@@ -1,17 +1,21 @@
-{:paths ["src" "resources"]
+{:paths ["src/cljs" "src/clj" "resources"]
  :deps {org.clojure/clojure {:mvn/version "1.11.1"}
+        ring/ring {:mvn/version "1.9.0"}
         reagent/reagent {:mvn/version "1.2.0"}
         cljsjs/react {:mvn/version "17.0.2-0"}
         cljsjs/react-dom {:mvn/version "17.0.2-0"}
         garden/garden {:mvn/version "1.3.10"}
         thheller/shadow-cljs {:mvn/version "2.21.0"}
         metosin/reitit {:mvn/version "0.6.0"}
+        metosin/muuntaja {:mvn/version "0.6.8"}
         pez/clerk {:mvn/version "1.0.0"}
         metosin/malli {:mvn/version "0.11.0"}}
  :aliases
- {:nrepl {:extra-deps
-          {nrepl/nrepl {:mvn/version "0.8.3"}
-           cider/piggieback {:mvn/version "0.5.3"}}}
-  :shadow-cljs
-  {:extra-deps {thheller/shadow-cljs {:mvn/version <latest>}}
-   :main-opts ["-m" "shadow.cljs.devtools.cli"]}}}
+ {:nrepl
+  {:extra-deps
+   {nrepl/nrepl {:mvn/version "0.8.3"}
+    cider/piggieback {:mvn/version "0.5.3"}}}
+  :cljs
+  {:extra-deps {thheller/shadow-cljs {:mvn/version "2.19.9"}}}}}
+
+;;:main-opts ["-m" "shadow.cljs.devtools.cli"]

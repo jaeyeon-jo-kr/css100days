@@ -17,13 +17,18 @@
    [css100days.day13 :as day13]
    [css100days.day14 :as day14]
    [css100days.day15 :as day15]
+   [css100days.day19 :as day19]
+   [css100days.day29 :as day29]
    [css100days.flex-box :as flex-box]
+   [css100days.selector :as selector]
    [reagent.core :as r]
    [reitit.frontend :as rf]
    [reitit.frontend.easy :as rfe]
    [reitit.coercion.schema :as rsc]))
 
 (defonce match (r/atom nil))
+
+(def server-domain "http://localhost:3001/")
 
 (defn log-fn [& params]
   (fn [_]
@@ -34,35 +39,35 @@
    [""
     {:name ::home
      :view basic/framework
-     :style basic/styles}]
+     :css "day1"}]
    ["basic"
     {:name ::basic
      :view basic/framework
-     :style basic/styles}]
+     :css "basic"}]
    ["day1"
     {:name ::day1
      :view day1/framework
-     :style day1/styles}]
+      :css "day1"}]
    ["day2"
     {:name ::day2
-     :view day2/framework
-     :style day2/styles}]
+     :view day2/framework 
+     :css "day2"}]
    ["day3"
     {:name ::day3
      :view day3/framework
-     :style day3/styles}]
+     :css "day3"}]
    ["day4"
     {:name ::day4
      :view day4/framework
-     :style day4/styles}]
+     :css "day4"}]
    ["day5"
     {:name ::day5
      :view day5/framework
-     :style day5/styles}]
+     :css "day5"}]
    ["day6"
     {:name ::day6
      :view day6/framework
-     :style day6/styles}]
+     :css "day6"}]
    ["day7"
     {:name ::day7
      :view day7/framework
@@ -99,10 +104,22 @@
     {:name ::day15
      :view day15/framework
      :style day15/styles}]
+   ["day19"
+    {:name ::day19
+     :view day19/view
+     :style day19/styles}]
    ["flex-box"
     {:name ::flex-box
      :view flex-box/framework
-     :style flex-box/styles}]])
+     :style flex-box/styles}]
+   ["selector"
+    {:name ::selector
+     :view selector/view
+     :style selector/styles}]
+   ["day29"
+    {:name ::day29
+     :view day29/framework
+     :style day29/styles}]])
 
 (def routes
   (rf/router
@@ -155,19 +172,6 @@
      [:div
       [(:view (:data @match))]])])
 
-(defn current-style
-  []
-  (when @match
-    (:style (:data @match))))
-
-
-(defn render-style
-  []
-  (re-dom/render
-   [current-style]
-   (js/document.getElementById "style")))
-
-
 (defn render-body
   [] 
   (re-dom/render 
@@ -178,15 +182,18 @@
 
 (defn init-router
   []
-  (rfe/start!
-   routes
-   (fn [m]
-     (reset! match m))
+  (rfe/start! routes (fn [m] (reset! match m))
    {:use-fragment false}))
+
+(defn render-css
+  []
+  (-> (js/document.getElementById "css")
+      (.setAttribute "href" (str server-domain "css/" (-> @match :data :css) ".css"))))
 
 (defn render
   []
-  (render-style)
+  (render-css)
+  #_(render-style)
   (render-body))
 
 (defn ^:export init

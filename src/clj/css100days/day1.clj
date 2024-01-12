@@ -1,6 +1,5 @@
 (ns css100days.day1
-  (:require [garden.core :refer [css]]
-            #_[reagent.dom :as re-dom]))
+  (:require [garden.core :refer [css]]))
 
 (defn styles
   []
@@ -59,40 +58,27 @@
         [:.zero-two
          {:z-index "6"
           :left "100px"}]]
-          [:.big {:position "relative"
-                  :z-index 20
-                  :display "block"
-                  :font-size "82px"
-                  :line-height "60px"
-                  :text-transform "uppercase"
-                  :font-weight "700"
-                  :margin-top "6px"}]
-          [:.big {:position "relative"
-                  :z-index 20
-                  :display "block"
-                  :font-size "82px"
-                  :line-height "60px"
-                  :text-transform "uppercase"
-                  :font-weight "700"
-                  :margin-top "6px"}]
-          [:.small {:position "relative"
-                    :z-index "20"
-                    :display "block"
-                    :font-size "23px"
-                    :line-height "20px"
-                    :text-transform "uppercase"
-                    :font-weight "700"
-                    :letter-spacing ".04em"}]))
-
-(defn framework
-  []
-  (fn []
-    [:div {:class "frame"}
-     [:div {:class "center"}
-      [:div {:class "number"}
-       [:div {:class "one-one"}]
-       [:div {:class "one-two"}]
-       [:div {:class "zero-one"}]
-       [:div {:class "zero-two"}]]
-      [:span {:class "big"} "Days"]
-      [:span {:class "small"} "CSS Challenge"]]]))
+       [:.big {:position "relative"
+               :z-index 20
+               :display "block"
+               :font-size "82px"
+               :line-height "60px"
+               :text-transform "uppercase"
+               :font-weight "700"
+               :margin-top "6px"}]
+       [:.big {:position "relative"
+               :z-index 20
+               :display "block"
+               :font-size "82px"
+               :line-height "60px"
+               :text-transform "uppercase"
+               :font-weight "700"
+               :margin-top "6px"}]
+       [:.small {:position "relative"
+                 :z-index "20"
+                 :display "block"
+                 :font-size "23px"
+                 :line-height "20px"
+                 :text-transform "uppercase"
+                 :font-weight "700"
+                 :letter-spacing ".04em"}]))
