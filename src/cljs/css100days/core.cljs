@@ -71,27 +71,27 @@
    ["day7"
     {:name ::day7
      :view day7/framework
-     :style day7/styles}]
+     :css "day7"}]
    ["day8"
     {:name ::day8
      :view day8/framework
-     :style day8/styles}]
+     :css "day8"}]
    ["day9"
     {:name ::day9
      :view day9/framework
-     :style day9/styles}]
+     :css "day9"}]
    ["day10"
     {:name ::day10
      :view day10/framework
-     :style day10/styles}]
+     :css "day10"}]
    ["day11"
     {:name ::day11
      :view day11/framework
-     :style day11/styles}]
+     :css "day11"}]
    ["day12"
     {:name ::day12
      :view day12/framework
-     :style day12/styles}]
+     :css "day12"}]
    ["day13"
     {:name ::day13
      :view day13/framework
