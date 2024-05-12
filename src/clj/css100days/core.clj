@@ -1,9 +1,12 @@
 (ns css100days.core 
-  (:require [css100days.day11 :as day11]
-            [css100days.basic :as basic]
+  (:require [css100days.basic :as basic]
             [css100days.day1 :as day1]
             [css100days.day10 :as day10]
+            [css100days.day11 :as day11]
+            [css100days.day12 :as day12]
+            [css100days.day13 :as day13]
             [css100days.day2 :as day2]
+            [css100days.day29 :as day29]
             [css100days.day3 :as day3]
             [css100days.day4 :as day4]
             [css100days.day5 :as day5]
@@ -11,11 +14,13 @@
             [css100days.day7 :as day7]
             [css100days.day8 :as day8]
             [css100days.day9 :as day9]
-            [css100days.day12 :as day12]
+            [css100days.flex-box :as flex-box]
+            [css100days.focus :as focus]
             [muuntaja.core :as m]
             [reitit.ring :as ring]
             [reitit.ring.middleware.muuntaja :as muuntaja]
-            [ring.adapter.jetty :as ring-jetty]))
+            [ring.adapter.jetty :as ring-jetty]
+            [ring.middleware.reload :as reload]))
 
 
 (def app
@@ -74,11 +79,28 @@
       ["day12.css"
        {:get (fn [_]
                {:status 200
-                :body (day12/styles)})}]]
+                :body (day12/styles)})}]
+      ["day13.css"
+       {:get (fn [_]
+               {:status 200
+                :body (day13/styles)})}]
+      ["day29.css"
+       {:get (fn [_]
+               {:status 200
+                :body (day29/styles)})}]
+      ["flex-box.css"
+       {:get (fn [_]
+               {:status 200
+                :body (flex-box/styles)})}]
+      ["focus.css"
+       {:get (fn [_]
+               {:status 200
+                :body (focus/styles)})}]]
      ["api/"]
      ["assets/*" (ring/create-resource-handler {:root "public/assets"})]]
     {:data {:muuntaja m/instance
-            :middleware [muuntaja/format-middleware]}})))
+            :middleware [muuntaja/format-middleware
+                         reload/wrap-reload]}})))
 
 (defn start []
   (ring-jetty/run-jetty #'app {:port  3001
@@ -86,4 +108,6 @@
 
 
 (defonce server (start))
+
+
 

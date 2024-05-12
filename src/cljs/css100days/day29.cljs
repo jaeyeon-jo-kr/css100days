@@ -1,29 +1,17 @@
 (ns css100days.day29
-  (:require [garden.core :refer [css]]))
+  (:require [reagent.core :as r]))
 
-(defn styles
-  []
-  (css [:.frame {:position "absolute"
-                 :top "50%"
-                 :left "50%"
-                 :width "400px"
-                 :height "400px"
-                 :margin-top "-200px"
-                 :margin-left "-200px"
-                 :border-radius "2px"
-                 :box-shadow "4px 8px 16px 0 rgba(0,0,0,0.1)"
-                 :overflow "hidden"
-                 :background "#f1f3be"
-                 :color "#333"
-                 :font-family "'Open Sans', Helvetica, sans-serif"
-                 :-webkit-font-smoothing "antialiased"
-                 :-moz-osx-font-smoothing "grayscale"}]
-       [:.center {:position "absolute"
-                  :top "50%"
-                  :left "50%"
-                  :transform "translate(-50%,-50%)"}]
-       [:.searchfield {:top "70%" 
-                       :left "50pt"}]))
+(def search-word (r/atom false))
+
+(defn data-list []
+  (let [search-items 
+        (if @search-word 
+          [(str "abc : " @search-word " at all ")
+           (str "cde : " @search-word " at all ")]
+          '())]
+    [:ul {:class "searchlist"}
+     (for [item search-items]
+       [:li item])]))
 
 (defn framework
   []
@@ -31,4 +19,11 @@
     [:div {:class "frame"}
      [:div {:class "center"}
       [:div {:class "searching"}
-       [:input {:type "text" :class "searchfield" :place-holder "Input search ..."}]]]]))
+       [:input {:type "text" :class "searchfield" 
+                :id "searchbox"
+                :place-holder "Input search ..."
+                :list "search-suggest"
+                :on-change 
+                (fn [e]
+                  (reset! search-word (-> e .-target .-value)))}]
+       (data-list)]]]))

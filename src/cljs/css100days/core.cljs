@@ -1,30 +1,30 @@
 (ns css100days.core
-  (:require
-   [reagent.dom :as re-dom]
-   [css100days.basic :as basic]
-   [css100days.day1 :as day1]
-   [css100days.day2 :as day2]
-   [css100days.day3 :as day3]
-   [css100days.day4 :as day4]
-   [css100days.day5 :as day5]
-   [css100days.day6 :as day6]
-   [css100days.day7 :as day7]
-   [css100days.day8 :as day8]
-   [css100days.day9 :as day9]
-   [css100days.day10 :as day10]
-   [css100days.day11 :as day11]
-   [css100days.day12 :as day12]
-   [css100days.day13 :as day13]
-   [css100days.day14 :as day14]
-   [css100days.day15 :as day15]
-   [css100days.day19 :as day19]
-   [css100days.day29 :as day29]
-   [css100days.flex-box :as flex-box]
-   [css100days.selector :as selector]
-   [reagent.core :as r]
-   [reitit.frontend :as rf]
-   [reitit.frontend.easy :as rfe]
-   [reitit.coercion.schema :as rsc]))
+  (:require [css100days.basic :as basic]
+            [css100days.day1 :as day1]
+            [css100days.day10 :as day10]
+            [css100days.day11 :as day11]
+            [css100days.day12 :as day12]
+            [css100days.day13 :as day13]
+            [css100days.day14 :as day14]
+            [css100days.day15 :as day15]
+            [css100days.day19 :as day19]
+            [css100days.day2 :as day2]
+            [css100days.day29 :as day29]
+            [css100days.day3 :as day3]
+            [css100days.day4 :as day4]
+            [css100days.day5 :as day5]
+            [css100days.day6 :as day6]
+            [css100days.day7 :as day7]
+            [css100days.day8 :as day8]
+            [css100days.day9 :as day9]
+            [css100days.flex-box :as flex-box]
+            [css100days.focus :as focus]
+            [css100days.selector :as selector]
+            [reagent.core :as r]
+            [reagent.dom :as re-dom]
+            [reitit.coercion.schema :as rsc]
+            [reitit.frontend :as rf]
+            [reitit.frontend.easy :as rfe]))
 
 (defonce match (r/atom nil))
 
@@ -95,31 +95,36 @@
    ["day13"
     {:name ::day13
      :view day13/framework
-     :style day13/styles}]
+     :css "day13"}]
    ["day14"
     {:name ::day14
      :view day14/framework
-     :style day14/styles}]
+     :css "day14"}]
    ["day15"
     {:name ::day15
      :view day15/framework
-     :style day15/styles}]
+     :css "day15"}]
    ["day19"
     {:name ::day19
      :view day19/view
-     :style day19/styles}]
+     :css "day19"}]
    ["flex-box"
     {:name ::flex-box
      :view flex-box/framework
-     :style flex-box/styles}]
+     :css "flex-box"}]
    ["selector"
     {:name ::selector
      :view selector/view
      :style selector/styles}]
+   ["focus"
+    {:name ::focus
+     :view focus/framework
+     :event-fn focus/event
+     :css "focus"}]
    ["day29"
     {:name ::day29
      :view day29/framework
-     :style day29/styles}]])
+     :css "day29"}]])
 
 (def routes
   (rf/router
@@ -140,15 +145,13 @@
   (->> raw-routes rest
        (map (comp
              (fn [name]
-               [:option {:value name
-                         :selected (when (= (current-module-name) name)
-                                     true)}
-                name])
+               [:option {:value name} name])
              name
              :name
              second))
        (apply conj
               [:select {:name "navigation-select"
+                        :value (current-module-name)
                         :on-change (fn [e]
                                      (set! js/document.location
                                            (str "/"
@@ -190,11 +193,16 @@
   (-> (js/document.getElementById "css")
       (.setAttribute "href" (str server-domain "css/" (-> @match :data :css) ".css"))))
 
+(defn register-events
+  []
+  (when-let [event-fn (-> @match :data :event-fn)]
+    (event-fn)))
+
 (defn render
   []
-  (render-css)
-  #_(render-style)
-  (render-body))
+  (render-css) 
+  (render-body)
+  (register-events))
 
 (defn ^:export init
   [& _params] 
